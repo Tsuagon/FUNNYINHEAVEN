@@ -39,17 +39,17 @@ local taaura = game:GetObjects('rbxassetid://11759936086')[1]
 taaura.Enabled = false
 
 local taauraclone1 = taaura:Clone()
-taauraclone1.Parent = char.Head
+taauraclone1.Parent = head
 local taauraclone2 = taaura:Clone()
-taauraclone2.Parent = char.Torso
+taauraclone2.Parent = torso
 local taauraclone3 = taaura:Clone()
-taauraclone3.Parent = char["Right Arm"]
+taauraclone3.Parent = rarm
 local taauraclone4 = taaura:Clone()
-taauraclone4.Parent = char["Right Leg"]
+taauraclone4.Parent = rleg
 local taauraclone5 = taaura:Clone()
-taauraclone5.Parent = char["Left Arm"]
+taauraclone5.Parent = larm
 local taauraclone6 = taaura:Clone()
-taauraclone6.Parent = char["Left Leg"]
+taauraclone6.Parent = lleg
 
 -- Visual Effects
 
