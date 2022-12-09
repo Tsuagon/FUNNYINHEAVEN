@@ -167,7 +167,7 @@ sphere1weld.Parent = breiftasphere
 -- Sounds
 
 local timeacceleratevoiceline = Instance.new("Sound", head)
-timeacceleratevoiceline.SoundId = "rbxassetid://5059139543"
+timeacceleratevoiceline.SoundId = "rbxassetid://6748972570"
 timeacceleratevoiceline.Volume = 5
 
 local multitpvoiceline = Instance.new("Sound", head)
