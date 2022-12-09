@@ -1,0 +1,820 @@
+-- [Enrico Pucci's Time Acceleration] -- 
+
+-- Based on the main ability of Made in Heaven, the evolved Stand of Enrico Pucci from Part 6 of JoJo's Bizarre Adventure.
+
+-- Everything in this script was written by Tsuagon (except the particles part, the particle textures themselves are from A Universal Time).
+
+----------------------------------------------------------------------------------------------------
+
+-- Player Stuff --
+
+local player = game:GetService("Players").LocalPlayer
+local char = player.Character
+local head = char.Head
+local rarm = char:FindFirstChild("Right Arm") or char:FindFirstChild("RightUpperArm")
+local larm = char:FindFirstChild("Left Arm") or char:FindFirstChild("LeftUpperArm")
+local rleg = char:FindFirstChild("Right Leg") or char:FindFirstChild("RightUpperLeg")
+local lleg = char:FindFirstChild("Left Leg") or char:FindFirstChild("LeftUpperLeg")
+local torso = char:FindFirstChild("Torso") or char:FindFirstChild("UpperTorso")
+local root = char.HumanoidRootPart
+local humanoid = char.Humanoid
+
+local mouse = player:GetMouse()
+
+----------------------------------------------------------------------------------------------------
+
+-- General Stuff --
+
+local tween = game:GetService("TweenService")
+local lighting = game:GetService("Lighting")
+local camera = workspace.CurrentCamera
+
+local currenthealth = humanoid.Health
+
+acceledtime = false
+
+-- Visual Effects
+
+local taeffect = Instance.new("ColorCorrectionEffect")
+taeffect.Brightness = 0
+taeffect.TintColor = Color3.new(1, 1, 1)
+taeffect.Contrast = 0
+taeffect.Saturation = 0
+taeffect.Enabled = true
+taeffect.Parent = lighting
+
+Blur1 = Instance.new("ParticleEmitter") -- Converted with ttyyuu12345's model to script plugin v4
+Blur1.Parent = torso
+Blur1.Speed = NumberRange.new(0, 0)
+Blur1.Rotation = NumberRange.new(90, 90)
+Blur1.Color = ColorSequence.new(Color3.new(0, 0, 0),Color3.new(0, 0, 0))
+Blur1.Texture = "http://www.roblox.com/asset/?id=4704486269"
+Blur1.Transparency = NumberSequence.new(1,0.748633861541748,0.7540983557701111,1)
+Blur1.ZOffset = 0.8999999761581421
+Blur1.Size = NumberSequence.new(1.3124996423721313,1.499999761581421)
+Blur1.Lifetime = NumberRange.new(0.10000000149011612, 0.10000000149011612)
+Blur1.LockedToPart = true
+Blur1.Rate = 5555
+Blur1.Enabled = false
+
+Blur2 = Instance.new("ParticleEmitter")
+Blur2.Parent = torso
+Blur2.Speed = NumberRange.new(0, 0)
+Blur2.Rotation = NumberRange.new(90, 90)
+Blur2.LightEmission = 1
+Blur2.Texture = "http://www.roblox.com/asset/?id=4704486269"
+Blur2.Transparency = NumberSequence.new(1,0.8062499761581421,0.8125,1)
+Blur2.ZOffset = 0.699999988079071
+Blur2.Size = NumberSequence.new(0.7499998807907104,0.9375)
+Blur2.Lifetime = NumberRange.new(0.10000000149011612, 0.10000000149011612)
+Blur2.LockedToPart = true
+Blur2.Rate = 5555
+Blur2.Enabled = false
+
+-- Afterimage
+
+local afterimage = Instance.new("Model") --Converted with ttyyuu12345's model to script plugin v4
+afterimage.Name = "MIHAfterimage"
+afterimage.Parent = workspace
+
+local aihead = Instance.new("Part")
+aihead.Name = "AIHead"
+aihead.Parent = afterimage
+aihead.Rotation = Vector3.new(-180, 0, -180)
+aihead.Color = Color3.new(0.972549, 0.972549, 0.972549)
+aihead.Size = Vector3.new(1.25, 1.25, 1.25)
+aihead.Anchored = true
+aihead.CanCollide = false
+aihead.Material = Enum.Material.Neon
+aihead.Transparency = 1
+
+local airarm = Instance.new("Part")
+airarm.Name = "AIRArm"
+airarm.Parent = afterimage
+airarm.Rotation = Vector3.new(-180, 0, -180)
+airarm.Color = Color3.new(0.972549, 0.972549, 0.972549)
+airarm.Size = Vector3.new(1, 2, 1)
+airarm.Anchored = true
+airarm.CanCollide = false
+airarm.Material = Enum.Material.Neon
+airarm.Transparency = 1
+
+local aillarm = Instance.new("Part")
+aillarm.Name = "AILLarm"
+aillarm.Parent = afterimage
+aillarm.Rotation = Vector3.new(-180, 0, -180)
+aillarm.Color = Color3.new(0.972549, 0.972549, 0.972549)
+aillarm.Size = Vector3.new(1, 2, 1)
+aillarm.Anchored = true
+aillarm.CanCollide = false
+aillarm.Material = Enum.Material.Neon
+aillarm.Transparency = 1
+
+local airleg = Instance.new("Part")
+airleg.Name = "AIRLeg"
+airleg.Parent = afterimage
+airleg.Rotation = Vector3.new(-180, 0, -180)
+airleg.Color = Color3.new(0.972549, 0.972549, 0.972549)
+airleg.Size = Vector3.new(1, 2, 1)
+airleg.Anchored = true
+airleg.CanCollide = false
+airleg.Material = Enum.Material.Neon
+airleg.Transparency = 1
+
+local ailleg = Instance.new("Part")
+ailleg.Name = "AILLeg"
+ailleg.Parent = afterimage
+ailleg.Rotation = Vector3.new(-180, 0, -180)
+ailleg.Color = Color3.new(0.972549, 0.972549, 0.972549)
+ailleg.Size = Vector3.new(1, 2, 1)
+ailleg.Anchored = true
+ailleg.CanCollide = false
+ailleg.Material = Enum.Material.Neon
+ailleg.Transparency = 1
+
+local aitorso = Instance.new("Part")
+aitorso.Name = "AITorso"
+aitorso.Parent = afterimage
+aitorso.Rotation = Vector3.new(-180, 0, -180)
+aitorso.Color = Color3.new(0.972549, 0.972549, 0.972549)
+aitorso.Size = Vector3.new(2, 2, 1)
+aitorso.Anchored = true
+aitorso.CanCollide = false
+aitorso.Material = Enum.Material.Neon
+aitorso.Transparency = 1
+
+-- Sphere Effect 
+
+local breiftasphere = Instance.new("Part")
+breiftasphere.Parent = torso
+breiftasphere.Material = Enum.Material.Neon
+breiftasphere.Size = Vector3.new(15, 15, 15)
+breiftasphere.Shape = Enum.PartType.Ball
+breiftasphere.CanCollide = false
+breiftasphere.Massless = true
+breiftasphere.Transparency = 1
+breiftasphere.Color = Color3.new(1, 1, 1)
+breiftasphere.CastShadow = false
+breiftasphere.Name = "Brief Time Acceleration Sphere Effect"
+
+local sphere1weld = Instance.new("Weld")
+sphere1weld.Part0 = breiftasphere
+sphere1weld.Part1 = torso
+sphere1weld.C0 = torso.CFrame
+sphere1weld.C1 = torso.CFrame
+sphere1weld.Parent = breiftasphere
+
+-- Sounds
+
+local timeacceleratevoiceline = Instance.new("Sound", head)
+timeacceleratevoiceline.SoundId = "rbxassetid://5059139543"
+timeacceleratevoiceline.Volume = 5
+
+local multitpvoiceline = Instance.new("Sound", head)
+multitpvoiceline.SoundId = "rbxassetid://7053541955"
+multitpvoiceline.Volume = 6.5
+
+local onestepvoiceline = Instance.new("Sound", head)
+onestepvoiceline.SoundId = "rbxassetid://9687790387"
+onestepvoiceline.Volume = 6.5
+
+local timeacceleratesfx = Instance.new("Sound", torso)
+timeacceleratesfx.SoundId = "rbxassetid://4095610922"
+timeacceleratesfx.Volume = 5.5
+
+local tsmovementsfx = Instance.new("Sound", torso)
+tsmovementsfx.SoundId = "rbxassetid://4388882427"
+tsmovementsfx.Volume = 5
+
+local teleportsfx = Instance.new("Sound", torso)
+teleportsfx.SoundId = "rbxassetid://6759980915"
+teleportsfx.Volume = 5
+
+local teleport2sfx = Instance.new("Sound", torso)
+teleport2sfx.SoundId = "rbxassetid://6762790647"
+teleport2sfx.Volume = 4.5
+
+local dashsfx = Instance.new("Sound", torso)
+dashsfx.SoundId = "rbxassetid://5943712660"
+dashsfx.Volume = 4.5
+
+local multiteleportsfx = Instance.new("Sound", torso)
+multiteleportsfx.SoundId = "rbxassetid://6759981774"
+multiteleportsfx.Volume = 5
+
+local tabass = Instance.new("Sound", torso)
+tabass.SoundId = "rbxassetid://3782476462"
+tabass.Volume = 5
+
+
+----------------------------------------------------------------------------------------------------
+
+-- Main Script --
+
+local blur1head = Blur1:Clone()
+local blur1rarm = Blur1:Clone()
+local blur1larm = Blur1:Clone()
+local blur1rleg = Blur1:Clone()
+local blur1lleg = Blur1:Clone()
+
+local blur2head = Blur2:Clone()
+local blur2rarm = Blur2:Clone()
+local blur2larm = Blur2:Clone()
+local blur2rleg = Blur2:Clone()
+local blur2lleg = Blur2:Clone()
+
+function timeacceleration()
+	if acceledtime == true then return end
+	timeacceleratevoiceline:Play()
+	acceledtime = true
+	timeacceleratesfx:Play()
+	coroutine.resume(coroutine.create(function()
+		coroutine.resume(coroutine.create(function()
+			for _ = 1, 40 do
+				wait()
+				local offset1 = math.random(-650, 650) / 500
+				local offset2 = math.random(-650, 650) / 500
+				local offset3 = math.random(-650, 650) / 500
+				tween:Create(humanoid, TweenInfo.new(0.05, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {CameraOffset = Vector3.new(offset1, offset2, offset3)}):Play();
+			end
+			tween:Create(humanoid, TweenInfo.new(0.1, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {CameraOffset = Vector3.new(0, 0, 0)}):Play();
+		end))
+		coroutine.resume(coroutine.create(function()
+			tween:Create(taeffect, TweenInfo.new(0.4), {Brightness = 1}):Play();
+			tween:Create(taeffect, TweenInfo.new(0.4), {TintColor = Color3.new(0.733333, 0.956863, 1)}):Play();
+			tween:Create(camera, TweenInfo.new(1.5), {FieldOfView = 255}):Play();
+			wait(1)
+			tween:Create(taeffect, TweenInfo.new(0.1), {Brightness = 0}):Play();
+			tween:Create(taeffect, TweenInfo.new(0.1), {TintColor = Color3.new(1, 1, 1)}):Play();
+			tween:Create(camera, TweenInfo.new(1.5), {FieldOfView = 200}):Play();
+		end))
+		coroutine.resume(coroutine.create(function()
+
+			-- Blur 1
+
+			Blur1.Enabled = true
+			blur1head.Parent = head
+			blur1head.Enabled = true
+			blur1rarm.Parent = rarm
+			blur1rarm.Enabled = true
+			blur1larm.Parent = larm
+			blur1larm.Enabled = true
+			blur1rleg.Parent = rleg
+			blur1rleg.Enabled = true
+			blur1lleg.Parent = lleg
+			blur1lleg.Enabled = true
+
+			---------------------------------------
+
+			-- Blur 2
+
+			Blur2.Enabled = true
+			blur2head.Parent = head
+			blur2head.Enabled = true
+			blur2rarm.Parent = rarm
+			blur2rarm.Enabled = true
+			blur2larm.Parent = larm
+			blur2larm.Enabled = true
+			blur2rleg.Parent = rleg
+			blur2rleg.Enabled = true
+			blur2lleg.Parent = lleg
+			blur2lleg.Enabled = true
+
+		end))
+	end))
+	tween:Create(aihead, TweenInfo.new(0.5), {Transparency = 0.7}):Play();
+	tween:Create(aitorso, TweenInfo.new(0.5), {Transparency = 0.7}):Play();
+	tween:Create(airarm, TweenInfo.new(0.5), {Transparency = 0.7}):Play();
+	tween:Create(airleg, TweenInfo.new(0.5), {Transparency = 0.7}):Play();
+	tween:Create(ailleg, TweenInfo.new(0.5), {Transparency = 0.7}):Play();
+	tween:Create(aillarm, TweenInfo.new(0.5), {Transparency = 0.7}):Play();
+	while acceledtime == true do
+		wait(0.1)
+	    coroutine.resume(coroutine.create(function()
+	         for _, v in pairs(char:GetDescendants()) do
+	             if v:IsA("BasePart") then
+	               if v.Name ~= "Brief Time Acceleration Sphere Effect" and v.Name ~= "HumanoidRootPart" then
+	                   v.Transparency = 1
+	               end
+	            end
+	         end
+	         for _, v in pairs(char:GetDescendants()) do
+	             if v:IsA("Decal") then
+	               v.Transparency = 1
+	            end
+         	 end
+             for _, v in pairs(char:GetDescendants()) do
+	             if v:IsA("Texture") then
+	               v.Transparency = 1
+	            end
+	         end
+	         wait(0.4)
+	          for _, v in pairs(char:GetDescendants()) do
+	             if v:IsA("BasePart") then
+	               if v.Name ~= "Brief Time Acceleration Sphere Effect" and v.Name ~= "HumanoidRootPart" then
+	                   v.Transparency = 0
+	               end
+	            end
+	          end
+         	  for _, v in pairs(char:GetDescendants()) do
+	             if v:IsA("Decal") then
+	               v.Transparency = 0
+	            end
+         	 end
+             for _, v in pairs(char:GetDescendants()) do
+	             if v:IsA("Texture") then
+	               v.Transparency = 0
+	            end
+	         end
+	    end))
+		aihead.CFrame = head.CFrame
+		aitorso.CFrame = torso.CFrame
+		airarm.CFrame = rarm.CFrame
+		airleg.CFrame = rleg.CFrame
+		aillarm.CFrame = larm.CFrame
+		ailleg.CFrame = lleg.CFrame
+		for _, v in pairs(workspace:GetDescendants()) do
+			if v:IsA("Sound") then
+				if not v:IsDescendantOf(char) then
+					v.PlaybackSpeed = v.PlaybackSpeed + 0.1
+				end
+			end
+		end
+		tween:Create(lighting, TweenInfo.new(0.5), {ClockTime = lighting.ClockTime + 1}):Play();
+		humanoid.WalkSpeed = humanoid.WalkSpeed + 4.5
+	end
+	wait(10)
+	timerevert()
+end
+
+function timerevert()
+	if acceledtime == false then return end
+	acceledtime = false
+	humanoid.WalkSpeed = 16
+	tween:Create(camera, TweenInfo.new(3), {FieldOfView = 70}):Play();
+	for _, v in pairs(workspace:GetDescendants()) do
+		if v:IsA("Sound") then
+			if not v:IsDescendantOf(char) then
+				v.PlaybackSpeed = 1
+			end
+		end
+	end
+	coroutine.resume(coroutine.create(function()
+	   for _, v in pairs(char:GetDescendants()) do
+	      if v:IsA("BasePart") then
+	         if v.Name ~= "Brief Time Acceleration Sphere Effect" and v.Name ~= "HumanoidRootPart" then
+	              v.Transparency = 0
+	           end
+	        end
+	     end
+            for _, v in pairs(char:GetDescendants()) do
+	           if v:IsA("Decal") then
+	              v.Transparency = 0
+	           end
+            end
+          for _, v in pairs(char:GetDescendants()) do
+	         if v:IsA("Texture") then
+	            v.Transparency = 0
+	         end
+         end
+    end))
+	tween:Create(aihead, TweenInfo.new(0.5), {Transparency = 1}):Play();
+	tween:Create(aitorso, TweenInfo.new(0.5), {Transparency = 1}):Play();
+	tween:Create(airarm, TweenInfo.new(0.5), {Transparency = 1}):Play();
+	tween:Create(airleg, TweenInfo.new(0.5), {Transparency = 1}):Play();
+	tween:Create(ailleg, TweenInfo.new(0.5), {Transparency = 1}):Play();
+	tween:Create(aillarm, TweenInfo.new(0.5), {Transparency = 1}):Play();
+	coroutine.resume(coroutine.create(function()
+		Blur1.Enabled = false
+		blur1head.Enabled = false
+		blur1rarm.Enabled = false
+		blur1larm.Enabled = false
+		blur1rleg.Enabled = false
+		blur1lleg.Enabled = false
+		Blur2.Enabled = false
+		blur2head.Enabled = false
+		blur2rarm.Enabled = false
+		blur2larm.Enabled = false
+		blur2rleg.Enabled = false
+		blur2lleg.Enabled = false
+	end))
+	coroutine.resume(coroutine.create(function()
+		tween:Create(taeffect, TweenInfo.new(0.1), {Brightness = 0}):Play();
+		tween:Create(taeffect, TweenInfo.new(0.1), {TintColor = Color3.new(1, 1, 1)}):Play();
+		tween:Create(camera, TweenInfo.new(0.1), {FieldOfView = 70}):Play();
+	end))
+end
+
+function surroundingteleportation()
+	if mouse.Target and mouse.Target.Parent:FindFirstChild("Humanoid") then
+		local enemyroot = mouse.Target.Parent:FindFirstChild("HumanoidRootPart")
+		coroutine.resume(coroutine.create(function()
+			if acceledtime == false then
+				Blur1.Enabled = true
+				blur1head.Enabled = true
+				blur1rarm.Enabled = true
+				blur1larm.Enabled = true
+				blur1rleg.Enabled = true
+				blur1lleg.Enabled = true
+				Blur2.Enabled = true
+				blur2head.Enabled = true
+				blur2rarm.Enabled = true
+				blur2larm.Enabled = true
+				blur2rleg.Enabled = true
+				blur2lleg.Enabled = true
+				wait(0.4)
+				Blur1.Enabled = false
+				blur1head.Enabled = false
+				blur1rarm.Enabled = false
+				blur1larm.Enabled = false
+				blur1rleg.Enabled = false
+				blur1lleg.Enabled = false
+				Blur2.Enabled = false
+				blur2head.Enabled = false
+				blur2rarm.Enabled = false
+				blur2larm.Enabled = false
+				blur2rleg.Enabled = false
+				blur2lleg.Enabled = false
+				tween:Create(taeffect, TweenInfo.new(0.4), {Brightness = 0}):Play();
+				tween:Create(taeffect, TweenInfo.new(0.4), {TintColor = Color3.new(1, 1, 1)}):Play();
+				tween:Create(camera, TweenInfo.new(1.5), {FieldOfView = 70}):Play();
+			elseif acceledtime == true then return end
+		end))
+		coroutine.resume(coroutine.create(function()
+			multiteleportsfx:Play()
+			multitpvoiceline:Play()
+			tween:Create(aihead, TweenInfo.new(0.5), {Transparency = 0.7}):Play();
+			tween:Create(aitorso, TweenInfo.new(0.5), {Transparency = 0.7}):Play();
+			tween:Create(airarm, TweenInfo.new(0.5), {Transparency = 0.7}):Play();
+			tween:Create(airleg, TweenInfo.new(0.5), {Transparency = 0.7}):Play();
+			tween:Create(ailleg, TweenInfo.new(0.5), {Transparency = 0.7}):Play();
+			tween:Create(aillarm, TweenInfo.new(0.5), {Transparency = 0.7}):Play();
+			aihead.CFrame = head.CFrame
+			aitorso.CFrame = torso.CFrame
+			airarm.CFrame = rarm.CFrame
+			airleg.CFrame = rleg.CFrame
+			aillarm.CFrame = larm.CFrame
+			ailleg.CFrame = lleg.CFrame
+			root.CFrame = enemyroot.CFrame * CFrame.new(math.random(-15, 5), 0, math.random(-15, 5))
+			wait(0.1)
+			aihead.CFrame = head.CFrame
+			aitorso.CFrame = torso.CFrame
+			airarm.CFrame = rarm.CFrame
+			airleg.CFrame = rleg.CFrame
+			aillarm.CFrame = larm.CFrame
+			ailleg.CFrame = lleg.CFrame
+			root.CFrame = enemyroot.CFrame * CFrame.new(math.random(-15, 5), 0, math.random(-15, 5))
+			wait(0.1)
+			aihead.CFrame = head.CFrame
+			aitorso.CFrame = torso.CFrame
+			airarm.CFrame = rarm.CFrame
+			airleg.CFrame = rleg.CFrame
+			aillarm.CFrame = larm.CFrame
+			ailleg.CFrame = lleg.CFrame
+			root.CFrame = enemyroot.CFrame * CFrame.new(math.random(-15, 5), 0, math.random(-15, 5))
+			wait(0.1)
+			aihead.CFrame = head.CFrame
+			aitorso.CFrame = torso.CFrame
+			airarm.CFrame = rarm.CFrame
+			airleg.CFrame = rleg.CFrame
+			aillarm.CFrame = larm.CFrame
+			ailleg.CFrame = lleg.CFrame
+			root.CFrame = enemyroot.CFrame * CFrame.new(math.random(-10, 5), 0, math.random(-10, 5))
+			wait(0.1)
+			aihead.CFrame = head.CFrame
+			aitorso.CFrame = torso.CFrame
+			airarm.CFrame = rarm.CFrame
+			airleg.CFrame = rleg.CFrame
+			aillarm.CFrame = larm.CFrame
+			ailleg.CFrame = lleg.CFrame
+			root.CFrame = enemyroot.CFrame * CFrame.new(math.random(-10, 5), 0, math.random(-10, 5))
+			tween:Create(aihead, TweenInfo.new(0.5), {Transparency = 1}):Play();
+			tween:Create(aitorso, TweenInfo.new(0.5), {Transparency = 1}):Play();
+			tween:Create(airarm, TweenInfo.new(0.5), {Transparency = 1}):Play();
+			tween:Create(airleg, TweenInfo.new(0.5), {Transparency = 1}):Play();
+			tween:Create(ailleg, TweenInfo.new(0.5), {Transparency = 1}):Play();
+			tween:Create(aillarm, TweenInfo.new(0.5), {Transparency = 1}):Play();
+		end))
+	end
+end
+
+function spammabledash()
+	if mouse.Target and mouse.Target.Parent:FindFirstChild("Humanoid") then
+		local enemyroot = mouse.Target.Parent:FindFirstChild("HumanoidRootPart")
+		coroutine.resume(coroutine.create(function()
+			if acceledtime == false then
+				Blur1.Enabled = true
+				blur1head.Enabled = true
+				blur1rarm.Enabled = true
+				blur1larm.Enabled = true
+				blur1rleg.Enabled = true
+				blur1lleg.Enabled = true
+				Blur2.Enabled = true
+				blur2head.Enabled = true
+				blur2rarm.Enabled = true
+				blur2larm.Enabled = true
+				blur2rleg.Enabled = true
+				blur2lleg.Enabled = true
+			elseif acceledtime == true then return end
+		end))
+		coroutine.resume(coroutine.create(function()
+			tween:Create(aihead, TweenInfo.new(0.5), {Transparency = 0.7}):Play();
+			tween:Create(aitorso, TweenInfo.new(0.5), {Transparency = 0.7}):Play();
+			tween:Create(airarm, TweenInfo.new(0.5), {Transparency = 0.7}):Play();
+			tween:Create(airleg, TweenInfo.new(0.5), {Transparency = 0.7}):Play();
+			tween:Create(ailleg, TweenInfo.new(0.5), {Transparency = 0.7}):Play();
+			tween:Create(aillarm, TweenInfo.new(0.5), {Transparency = 0.7}):Play();
+			aihead.CFrame = head.CFrame
+			aitorso.CFrame = torso.CFrame
+			airarm.CFrame = rarm.CFrame
+			airleg.CFrame = rleg.CFrame
+			aillarm.CFrame = larm.CFrame
+			ailleg.CFrame = lleg.CFrame
+			dashsfx:Play()
+			root.CFrame = enemyroot.CFrame + enemyroot.CFrame.lookVector * -7.5
+			tween:Create(aihead, TweenInfo.new(0.5), {Transparency = 1}):Play();
+			tween:Create(aitorso, TweenInfo.new(0.5), {Transparency = 1}):Play();
+			tween:Create(airarm, TweenInfo.new(0.5), {Transparency = 1}):Play();
+			tween:Create(airleg, TweenInfo.new(0.5), {Transparency = 1}):Play();
+			tween:Create(ailleg, TweenInfo.new(0.5), {Transparency = 1}):Play();
+			tween:Create(aillarm, TweenInfo.new(0.5), {Transparency = 1}):Play();
+			wait(0.09)
+			tween:Create(aihead, TweenInfo.new(0.5), {Transparency = 0.7}):Play();
+			tween:Create(aitorso, TweenInfo.new(0.5), {Transparency = 0.7}):Play();
+			tween:Create(airarm, TweenInfo.new(0.5), {Transparency = 0.7}):Play();
+			tween:Create(airleg, TweenInfo.new(0.5), {Transparency = 0.7}):Play();
+			tween:Create(ailleg, TweenInfo.new(0.5), {Transparency = 0.7}):Play();
+			tween:Create(aillarm, TweenInfo.new(0.5), {Transparency = 0.7}):Play();
+			aihead.CFrame = head.CFrame
+			aitorso.CFrame = torso.CFrame
+			airarm.CFrame = rarm.CFrame
+			airleg.CFrame = rleg.CFrame
+			aillarm.CFrame = larm.CFrame
+			ailleg.CFrame = lleg.CFrame
+			dashsfx:Play() 
+			root.CFrame = enemyroot.CFrame + enemyroot.CFrame.lookVector * 7.5
+			wait(0.1)
+			tween:Create(aihead, TweenInfo.new(0.5), {Transparency = 1}):Play();
+			tween:Create(aitorso, TweenInfo.new(0.5), {Transparency = 1}):Play();
+			tween:Create(airarm, TweenInfo.new(0.5), {Transparency = 1}):Play();
+			tween:Create(airleg, TweenInfo.new(0.5), {Transparency = 1}):Play();
+			tween:Create(ailleg, TweenInfo.new(0.5), {Transparency = 1}):Play();
+			tween:Create(aillarm, TweenInfo.new(0.5), {Transparency = 1}):Play();
+			Blur1.Enabled = false
+			blur1head.Enabled = false
+			blur1rarm.Enabled = false
+			blur1larm.Enabled = false
+			blur1rleg.Enabled = false
+			blur1lleg.Enabled = false
+			Blur2.Enabled = false
+			blur2head.Enabled = false
+			blur2rarm.Enabled = false
+			blur2larm.Enabled = false
+			blur2rleg.Enabled = false
+			blur2lleg.Enabled = false
+		end))
+	end
+end
+
+function onestep()
+	if mouse.Target and mouse.Target.Parent:FindFirstChild("Humanoid") then
+		local enemyroot = mouse.Target.Parent:FindFirstChild("HumanoidRootPart")
+		coroutine.resume(coroutine.create(function()
+			if acceledtime == false then
+				tween:Create(aihead, TweenInfo.new(0.5), {Transparency = 0.7}):Play();
+				tween:Create(aitorso, TweenInfo.new(0.5), {Transparency = 0.7}):Play();
+				tween:Create(airarm, TweenInfo.new(0.5), {Transparency = 0.7}):Play();
+				tween:Create(airleg, TweenInfo.new(0.5), {Transparency = 0.7}):Play();
+				tween:Create(ailleg, TweenInfo.new(0.5), {Transparency = 0.7}):Play();
+				tween:Create(aillarm, TweenInfo.new(0.5), {Transparency = 0.7}):Play();
+				aihead.CFrame = head.CFrame
+				aitorso.CFrame = torso.CFrame
+				airarm.CFrame = rarm.CFrame
+				airleg.CFrame = rleg.CFrame
+				aillarm.CFrame = larm.CFrame
+				ailleg.CFrame = lleg.CFrame
+				tween:Create(taeffect, TweenInfo.new(0.4), {Brightness = 1}):Play();
+				tween:Create(taeffect, TweenInfo.new(0.4), {TintColor = Color3.new(0.733333, 0.956863, 1)}):Play();
+				tween:Create(camera, TweenInfo.new(1.5), {FieldOfView = 255}):Play();
+				Blur1.Enabled = true
+				blur1head.Enabled = true
+				blur1rarm.Enabled = true
+				blur1larm.Enabled = true
+				blur1rleg.Enabled = true
+				blur1lleg.Enabled = true
+				Blur2.Enabled = true
+				blur2head.Enabled = true
+				blur2rarm.Enabled = true
+				blur2larm.Enabled = true
+				blur2rleg.Enabled = true
+				blur2lleg.Enabled = true
+				wait(0.3)
+				tween:Create(aihead, TweenInfo.new(0.5), {Transparency = 1}):Play();
+				tween:Create(aitorso, TweenInfo.new(0.5), {Transparency = 1}):Play();
+				tween:Create(airarm, TweenInfo.new(0.5), {Transparency = 1}):Play();
+				tween:Create(airleg, TweenInfo.new(0.5), {Transparency = 1}):Play();
+				tween:Create(ailleg, TweenInfo.new(0.5), {Transparency = 1}):Play();
+				tween:Create(aillarm, TweenInfo.new(0.5), {Transparency = 1}):Play();
+				Blur1.Enabled = false
+				blur1head.Enabled = false
+				blur1rarm.Enabled = false
+				blur1larm.Enabled = false
+				blur1rleg.Enabled = false
+				blur1lleg.Enabled = false
+				Blur2.Enabled = false
+				blur2head.Enabled = false
+				blur2rarm.Enabled = false
+				blur2larm.Enabled = false
+				blur2rleg.Enabled = false
+				blur2lleg.Enabled = false
+				tween:Create(taeffect, TweenInfo.new(0.4), {Brightness = 0}):Play();
+				tween:Create(taeffect, TweenInfo.new(0.4), {TintColor = Color3.new(1, 1, 1)}):Play();
+				tween:Create(camera, TweenInfo.new(1.5), {FieldOfView = 70}):Play();
+			elseif acceledtime == true then
+				tween:Create(taeffect, TweenInfo.new(0.4), {Brightness = 1}):Play();
+				tween:Create(taeffect, TweenInfo.new(0.4), {TintColor = Color3.new(0.733333, 0.956863, 1)}):Play();
+				tween:Create(camera, TweenInfo.new(1.5), {FieldOfView = 255}):Play();
+				wait(0.3)
+				tween:Create(taeffect, TweenInfo.new(0.4), {Brightness = 0}):Play();
+				tween:Create(taeffect, TweenInfo.new(0.4), {TintColor = Color3.new(1, 1, 1)}):Play();
+				tween:Create(camera, TweenInfo.new(1.5), {FieldOfView = 70}):Play();
+			end
+		end))
+		coroutine.resume(coroutine.create(function()
+			onestepvoiceline:Play()
+			teleportsfx:Play()
+			teleport2sfx:Play()
+			root.CFrame = enemyroot.CFrame + enemyroot.CFrame.lookVector * -5
+		end))
+	end
+end
+
+function teleportation()
+	teleportsfx:Play()
+	teleport2sfx:Play()
+    coroutine.resume(coroutine.create(function()
+        local teleportv = Instance.new("BodyVelocity", root)
+        teleportv.P = math.huge
+        teleportv.Velocity = root.CFrame.lookVector * 250
+        teleportv.MaxForce = Vector3.new(10000000, 0, 10000000)
+        game.Debris:AddItem(teleportv, 0.15)
+    end))
+	coroutine.resume(coroutine.create(function()
+		if acceledtime == false then
+			tween:Create(taeffect, TweenInfo.new(0.4), {Brightness = 1}):Play();
+			tween:Create(taeffect, TweenInfo.new(0.4), {TintColor = Color3.new(0.733333, 0.956863, 1)}):Play();
+			tween:Create(camera, TweenInfo.new(1.5), {FieldOfView = 255}):Play();
+			Blur1.Enabled = true
+			blur1head.Enabled = true
+			blur1rarm.Enabled = true
+			blur1larm.Enabled = true
+			blur1rleg.Enabled = true
+			blur1lleg.Enabled = true
+			Blur2.Enabled = true
+			blur2head.Enabled = true
+			blur2rarm.Enabled = true
+			blur2larm.Enabled = true
+			blur2rleg.Enabled = true
+			blur2lleg.Enabled = true
+			wait(0.3)
+			Blur1.Enabled = false
+			blur1head.Enabled = false
+			blur1rarm.Enabled = false
+			blur1larm.Enabled = false
+			blur1rleg.Enabled = false
+			blur1lleg.Enabled = false
+			Blur2.Enabled = false
+			blur2head.Enabled = false
+			blur2rarm.Enabled = false
+			blur2larm.Enabled = false
+			blur2rleg.Enabled = false
+			blur2lleg.Enabled = false
+			tween:Create(taeffect, TweenInfo.new(0.4), {Brightness = 0}):Play();
+			tween:Create(taeffect, TweenInfo.new(0.4), {TintColor = Color3.new(1, 1, 1)}):Play();
+			tween:Create(camera, TweenInfo.new(1.5), {FieldOfView = 70}):Play();
+		elseif acceledtime == true then
+			tween:Create(taeffect, TweenInfo.new(0.4), {Brightness = 1}):Play();
+			tween:Create(taeffect, TweenInfo.new(0.4), {TintColor = Color3.new(0.733333, 0.956863, 1)}):Play();
+			tween:Create(camera, TweenInfo.new(1.5), {FieldOfView = 255}):Play();
+			wait(0.3)
+			tween:Create(taeffect, TweenInfo.new(0.4), {Brightness = 0}):Play();
+			tween:Create(taeffect, TweenInfo.new(0.4), {TintColor = Color3.new(1, 1, 1)}):Play();
+			tween:Create(camera, TweenInfo.new(1.5), {FieldOfView = 70}):Play();
+		end
+	end))
+end
+
+function timestopmovement()
+	for _, v in pairs(char:GetDescendants()) do
+		if v:IsA("BasePart") then
+			if v.Anchored == true then
+				v.Anchored = false
+				coroutine.resume(coroutine.create(function()
+					Blur1.Enabled = true
+					blur1head.Enabled = true
+					blur1rarm.Enabled = true
+					blur1larm.Enabled = true
+					blur1rleg.Enabled = true
+					blur1lleg.Enabled = true
+					Blur2.Enabled = true
+					blur2head.Enabled = true
+					blur2rarm.Enabled = true
+					blur2larm.Enabled = true
+					blur2rleg.Enabled = true
+					blur2lleg.Enabled = true
+					wait(0.1)
+					Blur1.Enabled = false
+					blur1head.Enabled = false
+					blur1rarm.Enabled = false
+					blur1larm.Enabled = false
+					blur1rleg.Enabled = false
+					blur1lleg.Enabled = false
+					Blur2.Enabled = false
+					blur2head.Enabled = false
+					blur2rarm.Enabled = false
+					blur2larm.Enabled = false
+					blur2rleg.Enabled = false
+					blur2lleg.Enabled = false
+				end))
+				tsmovementsfx:Play()
+			end
+		end
+	end
+end
+
+function briefta()
+	if acceledtime == true then return end
+	tabass:Play()
+	coroutine.resume(coroutine.create(function()
+		coroutine.resume(coroutine.create(function()
+			tween:Create(breiftasphere, TweenInfo.new(0.5), {Transparency = 0.5}):Play();
+			tween:Create(breiftasphere, TweenInfo.new(0.5), {Size = Vector3.new(0, 0, 0)}):Play();
+			wait(0.4)
+			tween:Create(breiftasphere, TweenInfo.new(0.5), {Transparency = 1}):Play();
+			wait(1)
+			breiftasphere.Size = Vector3.new(15, 15, 15)
+		end))
+		coroutine.resume(coroutine.create(function()
+			tween:Create(taeffect, TweenInfo.new(0.4), {Brightness = 1}):Play();
+			tween:Create(taeffect, TweenInfo.new(0.4), {TintColor = Color3.new(0.733333, 0.956863, 1)}):Play();
+			tween:Create(camera, TweenInfo.new(1.5), {FieldOfView = 255}):Play();
+			wait(0.4)
+			tween:Create(taeffect, TweenInfo.new(0.1), {Brightness = 0}):Play();
+			tween:Create(taeffect, TweenInfo.new(0.1), {TintColor = Color3.new(1, 1, 1)}):Play();
+			tween:Create(camera, TweenInfo.new(1.5), {FieldOfView = 70}):Play();
+		end))
+	end))
+	humanoid.WalkSpeed = 70
+	Blur1.Enabled = true
+	blur1head.Enabled = true
+	blur1rarm.Enabled = true
+	blur1larm.Enabled = true
+	blur1rleg.Enabled = true
+	blur1lleg.Enabled = true
+	Blur2.Enabled = true
+	blur2head.Enabled = true
+	blur2rarm.Enabled = true
+	blur2larm.Enabled = true
+	blur2rleg.Enabled = true
+	blur2lleg.Enabled = true
+	wait(7.5)
+	Blur1.Enabled = false
+	blur1head.Enabled = false
+	blur1rarm.Enabled = false
+	blur1larm.Enabled = false
+	blur1rleg.Enabled = false
+	blur1lleg.Enabled = false
+	Blur2.Enabled = false
+	blur2head.Enabled = false
+	blur2rarm.Enabled = false
+	blur2larm.Enabled = false
+	blur2rleg.Enabled = false
+	blur2lleg.Enabled = false
+	humanoid.WalkSpeed = 16
+end
+
+mouse.KeyDown:Connect(function(key)
+	if key == "f" and acceledtime == false then
+		timeacceleration()
+	elseif key == "f" and acceledtime == true then
+		timerevert()
+	end
+	if key == "h" then
+		surroundingteleportation()
+	end
+	if key == "y" then
+		onestep()
+	end
+	if key == "j" then
+		timestopmovement()
+	end
+	if key == "g" then
+		spammabledash()
+	end
+	if key == "v" then
+		teleportation()
+	end
+	if key == "z" then
+		briefta()
+	end
+end)
