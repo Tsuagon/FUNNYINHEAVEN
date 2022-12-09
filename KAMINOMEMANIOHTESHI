@@ -175,7 +175,7 @@ multitpvoiceline.SoundId = "rbxassetid://7053541955"
 multitpvoiceline.Volume = 6.5
 
 local onestepvoiceline = Instance.new("Sound", head)
-onestepvoiceline.SoundId = "rbxassetid://9687790387"
+onestepvoiceline.SoundId = "rbxassetid://6759040675"
 onestepvoiceline.Volume = 6.5
 
 local timeacceleratesfx = Instance.new("Sound", torso)
