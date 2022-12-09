@@ -33,6 +33,24 @@ local currenthealth = humanoid.Health
 
 acceledtime = false
 
+-- Time Acceleration Aura
+
+local taaura = game:GetObjects('rbxassetid://11759936086')[1]
+taaura.Enabled = false
+
+local taauraclone1 = taaura:Clone()
+taauraclone1.Parent = char.Head
+local taauraclone2 = taaura:Clone()
+taauraclone2.Parent = char.Torso
+local taauraclone3 = taaura:Clone()
+taauraclone3.Parent = char["Right Arm"]
+local taauraclone4 = taaura:Clone()
+taauraclone4.Parent = char["Right Leg"]
+local taauraclone5 = taaura:Clone()
+taauraclone5.Parent = char["Left Arm"]
+local taauraclone6 = taaura:Clone()
+taauraclone6.Parent = char["Left Leg"]
+
 -- Visual Effects
 
 local taeffect = Instance.new("ColorCorrectionEffect")
@@ -206,7 +224,6 @@ local tabass = Instance.new("Sound", torso)
 tabass.SoundId = "rbxassetid://3782476462"
 tabass.Volume = 5
 
-
 ----------------------------------------------------------------------------------------------------
 
 -- Main Script --
@@ -249,37 +266,11 @@ function timeacceleration()
 			tween:Create(camera, TweenInfo.new(1.5), {FieldOfView = 200}):Play();
 		end))
 		coroutine.resume(coroutine.create(function()
-
-			-- Blur 1
-
-			Blur1.Enabled = true
-			blur1head.Parent = head
-			blur1head.Enabled = true
-			blur1rarm.Parent = rarm
-			blur1rarm.Enabled = true
-			blur1larm.Parent = larm
-			blur1larm.Enabled = true
-			blur1rleg.Parent = rleg
-			blur1rleg.Enabled = true
-			blur1lleg.Parent = lleg
-			blur1lleg.Enabled = true
-
-			---------------------------------------
-
-			-- Blur 2
-
-			Blur2.Enabled = true
-			blur2head.Parent = head
-			blur2head.Enabled = true
-			blur2rarm.Parent = rarm
-			blur2rarm.Enabled = true
-			blur2larm.Parent = larm
-			blur2larm.Enabled = true
-			blur2rleg.Parent = rleg
-			blur2rleg.Enabled = true
-			blur2lleg.Parent = lleg
-			blur2lleg.Enabled = true
-
+            for _, v in pairs(char:GetDescendants()) do
+                if v:IsA("ParticleEmitter") then
+                    v.Enabled = true
+                end
+            end
 		end))
 	end))
 	tween:Create(aihead, TweenInfo.new(0.5), {Transparency = 0.7}):Play();
@@ -385,18 +376,11 @@ function timerevert()
 	tween:Create(ailleg, TweenInfo.new(0.5), {Transparency = 1}):Play();
 	tween:Create(aillarm, TweenInfo.new(0.5), {Transparency = 1}):Play();
 	coroutine.resume(coroutine.create(function()
-		Blur1.Enabled = false
-		blur1head.Enabled = false
-		blur1rarm.Enabled = false
-		blur1larm.Enabled = false
-		blur1rleg.Enabled = false
-		blur1lleg.Enabled = false
-		Blur2.Enabled = false
-		blur2head.Enabled = false
-		blur2rarm.Enabled = false
-		blur2larm.Enabled = false
-		blur2rleg.Enabled = false
-		blur2lleg.Enabled = false
+         for _, v in pairs(char:GetDescendants()) do
+            if v:IsA("ParticleEmitter") then
+                v.Enabled = false
+            end
+         end
 	end))
 	coroutine.resume(coroutine.create(function()
 		tween:Create(taeffect, TweenInfo.new(0.1), {Brightness = 0}):Play();
@@ -410,30 +394,17 @@ function surroundingteleportation()
 		local enemyroot = mouse.Target.Parent:FindFirstChild("HumanoidRootPart")
 		coroutine.resume(coroutine.create(function()
 			if acceledtime == false then
-				Blur1.Enabled = true
-				blur1head.Enabled = true
-				blur1rarm.Enabled = true
-				blur1larm.Enabled = true
-				blur1rleg.Enabled = true
-				blur1lleg.Enabled = true
-				Blur2.Enabled = true
-				blur2head.Enabled = true
-				blur2rarm.Enabled = true
-				blur2larm.Enabled = true
-				blur2rleg.Enabled = true
-				blur2lleg.Enabled = true
+	          for _, v in pairs(char:GetDescendants()) do
+                 if v:IsA("ParticleEmitter") then
+                    v.Enabled = true
+                 end
+              end
 				wait(0.4)
-				Blur1.Enabled = false
-				blur1head.Enabled = false
-				blur1rarm.Enabled = false
-				blur1larm.Enabled = false
-				blur1rleg.Enabled = false
-				blur1lleg.Enabled = false
-				Blur2.Enabled = false
-				blur2head.Enabled = false
-				blur2rarm.Enabled = false
-				blur2larm.Enabled = false
-				blur2rleg.Enabled = false
+	          for _, v in pairs(char:GetDescendants()) do
+                 if v:IsA("ParticleEmitter") then
+                    v.Enabled = false
+                 end
+              end
 				blur2lleg.Enabled = false
 				tween:Create(taeffect, TweenInfo.new(0.4), {Brightness = 0}):Play();
 				tween:Create(taeffect, TweenInfo.new(0.4), {TintColor = Color3.new(1, 1, 1)}):Play();
@@ -503,18 +474,11 @@ function spammabledash()
 		local enemyroot = mouse.Target.Parent:FindFirstChild("HumanoidRootPart")
 		coroutine.resume(coroutine.create(function()
 			if acceledtime == false then
-				Blur1.Enabled = true
-				blur1head.Enabled = true
-				blur1rarm.Enabled = true
-				blur1larm.Enabled = true
-				blur1rleg.Enabled = true
-				blur1lleg.Enabled = true
-				Blur2.Enabled = true
-				blur2head.Enabled = true
-				blur2rarm.Enabled = true
-				blur2larm.Enabled = true
-				blur2rleg.Enabled = true
-				blur2lleg.Enabled = true
+	          for _, v in pairs(char:GetDescendants()) do
+                 if v:IsA("ParticleEmitter") then
+                    v.Enabled = true
+                 end
+              end
 			elseif acceledtime == true then return end
 		end))
 		coroutine.resume(coroutine.create(function()
@@ -560,18 +524,11 @@ function spammabledash()
 			tween:Create(airleg, TweenInfo.new(0.5), {Transparency = 1}):Play();
 			tween:Create(ailleg, TweenInfo.new(0.5), {Transparency = 1}):Play();
 			tween:Create(aillarm, TweenInfo.new(0.5), {Transparency = 1}):Play();
-			Blur1.Enabled = false
-			blur1head.Enabled = false
-			blur1rarm.Enabled = false
-			blur1larm.Enabled = false
-			blur1rleg.Enabled = false
-			blur1lleg.Enabled = false
-			Blur2.Enabled = false
-			blur2head.Enabled = false
-			blur2rarm.Enabled = false
-			blur2larm.Enabled = false
-			blur2rleg.Enabled = false
-			blur2lleg.Enabled = false
+	          for _, v in pairs(char:GetDescendants()) do
+                 if v:IsA("ParticleEmitter") then
+                    v.Enabled = false
+                 end
+              end
 		end))
 	end
 end
@@ -596,18 +553,11 @@ function onestep()
 				tween:Create(taeffect, TweenInfo.new(0.4), {Brightness = 1}):Play();
 				tween:Create(taeffect, TweenInfo.new(0.4), {TintColor = Color3.new(0.733333, 0.956863, 1)}):Play();
 				tween:Create(camera, TweenInfo.new(1.5), {FieldOfView = 255}):Play();
-				Blur1.Enabled = true
-				blur1head.Enabled = true
-				blur1rarm.Enabled = true
-				blur1larm.Enabled = true
-				blur1rleg.Enabled = true
-				blur1lleg.Enabled = true
-				Blur2.Enabled = true
-				blur2head.Enabled = true
-				blur2rarm.Enabled = true
-				blur2larm.Enabled = true
-				blur2rleg.Enabled = true
-				blur2lleg.Enabled = true
+	             for _, v in pairs(char:GetDescendants()) do
+                    if v:IsA("ParticleEmitter") then
+                      v.Enabled = true
+                   end
+                end
 				wait(0.3)
 				tween:Create(aihead, TweenInfo.new(0.5), {Transparency = 1}):Play();
 				tween:Create(aitorso, TweenInfo.new(0.5), {Transparency = 1}):Play();
@@ -615,18 +565,11 @@ function onestep()
 				tween:Create(airleg, TweenInfo.new(0.5), {Transparency = 1}):Play();
 				tween:Create(ailleg, TweenInfo.new(0.5), {Transparency = 1}):Play();
 				tween:Create(aillarm, TweenInfo.new(0.5), {Transparency = 1}):Play();
-				Blur1.Enabled = false
-				blur1head.Enabled = false
-				blur1rarm.Enabled = false
-				blur1larm.Enabled = false
-				blur1rleg.Enabled = false
-				blur1lleg.Enabled = false
-				Blur2.Enabled = false
-				blur2head.Enabled = false
-				blur2rarm.Enabled = false
-				blur2larm.Enabled = false
-				blur2rleg.Enabled = false
-				blur2lleg.Enabled = false
+	             for _, v in pairs(char:GetDescendants()) do
+                    if v:IsA("ParticleEmitter") then
+                      v.Enabled = false
+                   end
+                end
 				tween:Create(taeffect, TweenInfo.new(0.4), {Brightness = 0}):Play();
 				tween:Create(taeffect, TweenInfo.new(0.4), {TintColor = Color3.new(1, 1, 1)}):Play();
 				tween:Create(camera, TweenInfo.new(1.5), {FieldOfView = 70}):Play();
@@ -664,31 +607,17 @@ function teleportation()
 			tween:Create(taeffect, TweenInfo.new(0.4), {Brightness = 1}):Play();
 			tween:Create(taeffect, TweenInfo.new(0.4), {TintColor = Color3.new(0.733333, 0.956863, 1)}):Play();
 			tween:Create(camera, TweenInfo.new(1.5), {FieldOfView = 255}):Play();
-			Blur1.Enabled = true
-			blur1head.Enabled = true
-			blur1rarm.Enabled = true
-			blur1larm.Enabled = true
-			blur1rleg.Enabled = true
-			blur1lleg.Enabled = true
-			Blur2.Enabled = true
-			blur2head.Enabled = true
-			blur2rarm.Enabled = true
-			blur2larm.Enabled = true
-			blur2rleg.Enabled = true
-			blur2lleg.Enabled = true
+	        for _, v in pairs(char:GetDescendants()) do
+                 if v:IsA("ParticleEmitter") then
+                   v.Enabled = true
+                end
+            end
 			wait(0.3)
-			Blur1.Enabled = false
-			blur1head.Enabled = false
-			blur1rarm.Enabled = false
-			blur1larm.Enabled = false
-			blur1rleg.Enabled = false
-			blur1lleg.Enabled = false
-			Blur2.Enabled = false
-			blur2head.Enabled = false
-			blur2rarm.Enabled = false
-			blur2larm.Enabled = false
-			blur2rleg.Enabled = false
-			blur2lleg.Enabled = false
+	        for _, v in pairs(char:GetDescendants()) do
+                 if v:IsA("ParticleEmitter") then
+                   v.Enabled = false
+                end
+            end
 			tween:Create(taeffect, TweenInfo.new(0.4), {Brightness = 0}):Play();
 			tween:Create(taeffect, TweenInfo.new(0.4), {TintColor = Color3.new(1, 1, 1)}):Play();
 			tween:Create(camera, TweenInfo.new(1.5), {FieldOfView = 70}):Play();
@@ -710,31 +639,17 @@ function timestopmovement()
 			if v.Anchored == true then
 				v.Anchored = false
 				coroutine.resume(coroutine.create(function()
-					Blur1.Enabled = true
-					blur1head.Enabled = true
-					blur1rarm.Enabled = true
-					blur1larm.Enabled = true
-					blur1rleg.Enabled = true
-					blur1lleg.Enabled = true
-					Blur2.Enabled = true
-					blur2head.Enabled = true
-					blur2rarm.Enabled = true
-					blur2larm.Enabled = true
-					blur2rleg.Enabled = true
-					blur2lleg.Enabled = true
+	                 for _, v in pairs(char:GetDescendants()) do
+                         if v:IsA("ParticleEmitter") then
+                           v.Enabled = true
+                        end
+                    end
 					wait(0.1)
-					Blur1.Enabled = false
-					blur1head.Enabled = false
-					blur1rarm.Enabled = false
-					blur1larm.Enabled = false
-					blur1rleg.Enabled = false
-					blur1lleg.Enabled = false
-					Blur2.Enabled = false
-					blur2head.Enabled = false
-					blur2rarm.Enabled = false
-					blur2larm.Enabled = false
-					blur2rleg.Enabled = false
-					blur2lleg.Enabled = false
+	                 for _, v in pairs(char:GetDescendants()) do
+                         if v:IsA("ParticleEmitter") then
+                           v.Enabled = false
+                        end
+                    end
 				end))
 				tsmovementsfx:Play()
 			end
@@ -765,31 +680,17 @@ function briefta()
 		end))
 	end))
 	humanoid.WalkSpeed = 70
-	Blur1.Enabled = true
-	blur1head.Enabled = true
-	blur1rarm.Enabled = true
-	blur1larm.Enabled = true
-	blur1rleg.Enabled = true
-	blur1lleg.Enabled = true
-	Blur2.Enabled = true
-	blur2head.Enabled = true
-	blur2rarm.Enabled = true
-	blur2larm.Enabled = true
-	blur2rleg.Enabled = true
-	blur2lleg.Enabled = true
+	for _, v in pairs(char:GetDescendants()) do
+        if v:IsA("ParticleEmitter") then
+            v.Enabled = true
+        end
+    end
 	wait(7.5)
-	Blur1.Enabled = false
-	blur1head.Enabled = false
-	blur1rarm.Enabled = false
-	blur1larm.Enabled = false
-	blur1rleg.Enabled = false
-	blur1lleg.Enabled = false
-	Blur2.Enabled = false
-	blur2head.Enabled = false
-	blur2rarm.Enabled = false
-	blur2larm.Enabled = false
-	blur2rleg.Enabled = false
-	blur2lleg.Enabled = false
+	for _, v in pairs(char:GetDescendants()) do
+        if v:IsA("ParticleEmitter") then
+            v.Enabled = false
+        end
+    end
 	humanoid.WalkSpeed = 16
 end
 
